@@ -1,29 +1,22 @@
 var express = require('express');
+var controllerIndex = require('../controller/index');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
 // 访问 login 页面
-router.get('/login',(req,res,next)=>{
-    res.render('login');
-});
+router.get('/login',controllerIndex.login);
 
 //访问 register 页面
-router.get('/register',(req,res,next)=>{
-  res.render('register');
-});
+router.get('/register',controllerIndex.register);
 
 //访问 admin 页面
-router.get('/admin',(req,res,next)=>{
-  res.render('admin');
-});
+router.get('/admin',controllerIndex.admin);
 
 // 匹配补上的路由，跳转到 login 页面
 router.get('*',(req,res,next)=>{
   res.redirect('/login');
 });
+
+// MVC ： Model (数据)   View(视图)    Controller(控制器)
+//    Controller(控制器) : 中间层去连接 M 和 V。
 
 module.exports = router;
