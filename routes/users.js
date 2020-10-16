@@ -1,9 +1,16 @@
 var express = require('express');
+var controllerUser = require('../controller/user');
+var getYZM = require('../common/yzm');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+//登录的功能
+router.post('/login', controllerUser.login);
+//注册的功能
+router.post('/register', controllerUser.register);
+//登出的功能
+router.post('/logout', controllerUser.logout);
+//验证码的功能
+router.get('/yzm', getYZM);
+
 
 module.exports = router;
