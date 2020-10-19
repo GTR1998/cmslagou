@@ -12,7 +12,7 @@
         <div id="content" class="row">
             <%- include('templates/menu',{ name : '职位添加' }) %>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <%- include('templates/breadcrumb',{ name : '职位添加' }) %>
+                <%- include('templates/breadcrumb',{ name : [{ link : '' , value : '职位添加' }] }) %>
                 <div class="col-6 mb-5">
                     <form action="/post/add" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
@@ -58,8 +58,8 @@
                             <input type="text" class="form-control" name="companyName">
                         </div>
                         <div class="form-group">
-                            <label class="btn btn-primary">公司Logo<input type="file" class="d-none" name="companyLogo"></label>
-                            <img src="" alt="">
+                            <label class="btn btn-primary">公司Logo<input type="file" class="d-none" name="companyLogo" id="companyLogo"></label>
+                            <img id="companyImg" src="" alt="">
                         </div>
                         <div class="form-group">
                           <label>职位信息</label>
@@ -75,7 +75,14 @@
     </div>
     <script>
 
-
+    $('#companyLogo').change(function(){
+        var fileReader = new FileReader();
+        fileReader.onload = function(e){   //读取成功触发的事件
+            $('#companyImg').attr('src', e.target.result );
+        };
+        var imageFile = this.files[0];  //找到上传的文件
+        fileReader.readAsDataURL(imageFile);  //读取这个文件的信息
+    });
 
     </script>
 </body>

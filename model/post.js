@@ -7,7 +7,8 @@ var postSchema = mongoose.Schema({
     postEdu : { type : String , required : true },
     companyName : { type : String , required : true },
     companyLogo : { type : String , required : true },
-    postMessage : { type : String , required : true }
+    postMessage : { type : String , required : true },
+    postId : { type : Number , required : true }
 });
 
 var PostModel = mongoose.model('postList',postSchema);

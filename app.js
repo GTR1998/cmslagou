@@ -35,9 +35,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //只会拦截admin标识的get请求
 app.get(/\/admin/,(req,res,next)=>{
-  /* if( !req.session.username ){
+  if( !req.session.username ){
     res.redirect('/login');
-  } */
+  }
   next();
 });
 

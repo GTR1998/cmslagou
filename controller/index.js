@@ -1,4 +1,5 @@
 
+var PostModel = require('../model/post');
 
 var login = (req,res,next)=>{
     res.render('login');
@@ -13,9 +14,19 @@ var admin = (req,res,next)=>{
 };
 
 var admin_postedit = (req,res,next)=>{
-    res.render('admin_postedit',{
-        username : req.session.username
+
+    PostModel.find().then((infos)=>{
+        res.render('admin_postedit',{
+            username : req.session.username,
+            infos 
+        });
+    }).catch((err)=>{
+        res.render('admin_postedit',{
+            username : req.session.username,
+            infos : [] 
+        });
     });
+
 };
 var admin_postadd = (req,res,next)=>{
     res.render('admin_postadd',{
@@ -23,10 +34,32 @@ var admin_postadd = (req,res,next)=>{
     });
 };
 
+var admin_postupdate = (req,res,next) => {
+   
+    PostModel.findOne({ postId :  req.params.postId }).then((info)=>{
+
+        res.render('admin_postupdate',{
+            username : req.session.username,
+            info
+        });
+
+    }).catch((err)=>{
+
+        res.render('admin_postupdate',{
+            username : req.session.username,
+            info : {}
+        });
+
+    });
+
+    
+};
+
 module.exports = {
     login,
     register,
     admin,
     admin_postedit,
-    admin_postadd
+    admin_postadd,
+    admin_postupdate
 };
