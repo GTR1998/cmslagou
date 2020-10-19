@@ -5,7 +5,7 @@ var getCrypto = require('../common/crypto');
 var login = async (req,res,next)=>{
     //res.send('login');
     var { username , password , yzm } = req.body;
-    if( yzm != req.session.captcha ){
+    if( yzm.toLowerCase() != req.session.captcha.toLowerCase() ){
         res.send('<script>alert("验证码输入有误"); location.href="/login"; </script>');
         return;
     }
@@ -15,6 +15,10 @@ var login = async (req,res,next)=>{
         password : getCrypto(password)
     });
     if(info){
+
+        //写入session值，可以知道是哪个用户
+        req.session.username = username;
+
         res.send('<script>alert("登录成功！"); location.href="/admin"; </script>');
     }
     else{
@@ -37,8 +41,10 @@ var register = async (req,res,next)=>{
     }
 };
 
+//退出登录的功能
 var logout = (req,res,next)=>{
-    res.send('logout');
+    req.session.username = null;
+    res.redirect('/login');
 };
 
 module.exports = {

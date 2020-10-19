@@ -8,14 +8,18 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var postRouter = require('./routes/post');
 
 var app = express();
 
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }   // secure : true 表示https
+  secret: 'hasjkd$%@13',    //给cookie进行加盐，也就是混淆，让其更安全。
+  name : 'sessionid',        //可以改变cookie的name , 默认是 : connect_sid
+  resave: false,            // 不去重复生成cookie
+  saveUninitialized: true,   //在不初始化session时候，创建cookie
+  cookie: {
+    maxAge : 1000 * 60 * 60  // 超过一小时就过期
+  }   // secure : true 表示https
 }))
 
 // view engine setup
@@ -29,10 +33,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
+//只会拦截admin标识的get请求
+app.get(/\/admin/,(req,res,next)=>{
+  /* if( !req.session.username ){
+    res.redirect('/login');
+  } */
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/post', postRouter);
 
 
 // catch 404 and forward to error handler

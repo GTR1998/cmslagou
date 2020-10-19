@@ -8,7 +8,7 @@ router.post('/login', controllerUser.login);
 //注册的功能
 router.post('/register', controllerUser.register);
 //登出的功能
-router.post('/logout', controllerUser.logout);
+router.get('/logout', controllerUser.logout);
 //验证码的功能
 router.get('/yzm', getYZM);
 
